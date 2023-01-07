@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  <style>
+    body {
+      background: #33d9b2;
+      font-size: 12px;
+    }
+
+    body,
+    button,
+    input {
+      font-family: 'Righteous', cursive;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+    }
+
+    .background {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .container {
+      flex: 0 1 700px;
+      margin: auto;
+      padding: 10px;
+    }
+
+    .screen {
+      position: relative;
+      background: #3e3e3e;
+      border-radius: 15px;
+    }
+
+    .screen:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 20px;
+      right: 20px;
+      bottom: 0;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+      z-index: -1;
+    }
+
+    .screen-body {
+      display: flex;
+    }
+
+    .screen-body-item {
+      flex: 1;
+      padding: 50px;
+    }
+
+    .screen-body-item.left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .app-title {
+      display: flex;
+      /*flex-direction: column;*/
+      justify-content: center;
+      align-items: center;
+      color: #33d9b2;
+      font-size: 26px;
+      text-transform: uppercase;
+      border-left: 4px solid #218c74;
+      padding: 10px;
+    }
+
+    .app-form-group {
+      margin-bottom: 15px;
+    }
+
+    .app-form-group.buttons {
+      margin-bottom: 0;
+      text-align: right;
+    }
+
+    .app-form-control {
+      width: 100%;
+      padding: 10px 0;
+      background: none;
+      border: none;
+      border-bottom: 1px solid #666;
+      color: #ddd;
+      font-size: 14px;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .app-form-control::placeholder {
+      color: #FFF;
+    }
+
+    .app-form-control:focus {
+      border-bottom-color: #ddd;
+    }
+
+    .app-form-button {
+      background: none;
+      border: none;
+      color: #33d9b2;
+      font-size: 14px;
+      cursor: pointer;
+      outline: none;
+      text-transform: uppercase;
+    }
+
+    .app-form-button:hover {
+      color: #218c74;
+    }
+
+    .showdata {
+      text-align: center;
+      color: white;
+      font-size: 1.2rem;
+      padding-top: -10px;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background">
+    <div class="container">
+      <div class="screen">
+        <div class="screen-body">
+          <div class="screen-body-item left">
+            <div class="app-title">
+              <div class="animated infinite pulse">
+                Student <br> CGPA & Percentage <br> Calcy
+              </div>
+            </div>
+          </div>
+          <div class="screen-body-item">
+            <div class="app-form" id="app-form">
+              <div class="app-form-group">
+                <input type="text" class="app-form-control" placeholder="How Many Semesters" id="addsem" required>
+              </div>
+              <div>
+                <input type="button" name="" id="confirm" value="Confirm" class="app-form-button" onclick="addsem()">
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="app-form-group showdata">
+          <p id="showData"> </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let app_form_control = document.getElementById('app-form');
+      let app_form_button = document.getElementById('app-form');
+      const addsem = () => {
+        let addsem = document.getElementById('addsem').value;
+        let i = 1;
+        let idDictionary = ["semone", "semtwo", "semthree", "semfour", "semfive", "semsix", "semseven", "semeight"];
+        let n = idDictionary.length;
+        let p = 0;
+        let ph_Dictionary = ['Sem 01 SGPA', 'Sem 02 SGPA', 'Sem 03 SGPA', 'Sem 04 SGPA', 'Sem 05 SGPA', 'Sem 06 SGPA', 'Sem 07 SGPA', 'Sem 08 SGPA'];
+        let t = ph_Dictionary.length;
+        let k = 0;
+        //Jitni bhi value addsem me input hogi, utne text box display hoge, with the help of this loop
+        while (i <= addsem && addsem <= 8 && p <= n - 1 && k <= t - 1) {
+          var newField = document.createElement("input"); //created input box
+          newField.setAttribute("name", "array[]");
+          newField.setAttribute("type", "text"); //setting attributes
+          newField.setAttribute("class", "app-form-control");
+          newField.setAttribute("required", "");
+          newField.setAttribute("placeholder", `${ph_Dictionary[k]}`);
+          k++;
+          //console.log(`Item name: ${array1[p]}`);
+          newField.setAttribute("id", `${idDictionary[p]}`);
+          p++;
+          app_form_control.appendChild(newField); //adding the created input box to the parent div element i.e. <div id="app-form-group">
+          i++;
+        }
+
+        //removing how many sem textbox
+        let rem_addsem = document.querySelector('#addsem');
+        rem_addsem.parentNode.removeChild(rem_addsem);
+        //removing confirm btn
+        let rem_confirm = document.querySelector('#confirm')
+        rem_confirm.parentNode.removeChild(rem_confirm);
+        //adding calculate btn
+
+        if (addsem > 8 || addsem == "") {
+          document.getElementById('showData').innerHTML = "Please Enter Number Of Semesters Between 1 to 8";
+          let refresh = document.createElement('input');
+          refresh.setAttribute('type', 'button');
+          refresh.setAttribute('class', 'app-form-button');
+          refresh.setAttribute('value', 'refresh');
+          app_form_button.appendChild(refresh);
+          refresh.onclick = function () {
+            document.location.reload(true);
+          }
+        }
+
+        //calculating values
+        if (addsem <= 8 && addsem != "") {
+          let calculate = document.createElement('input');
+          calculate.setAttribute('type', 'button');
+          calculate.setAttribute('class', 'app-form-button');
+          calculate.setAttribute('value', 'Calculate');
+          calculate.setAttribute('id', 'calculate');
+          app_form_button.appendChild(calculate);
+
+          calculate.onclick = function () {
+            let sgpa_input_array;
+            let totalSGPA = 0;
+            let sgpa_inputs = document.getElementsByName('array[]');
+            let sgpa_input;
+            for (sgpa_input = 0; sgpa_input < sgpa_inputs.length; sgpa_input++) {
+              sgpa_input_array = sgpa_inputs[sgpa_input];
+              // console.log(sgpa_input_array.value);
+              //console.log(sgpa_input_array);
+              totalSGPA += +sgpa_input_array.value;
+            }
+
+            let perc;
+            let grades = "";
+
+            let cgpa = (totalSGPA / sgpa_inputs.length).toFixed(2);
+
+            if (cgpa < 7) {
+              perc = (7.1 * cgpa + 12).toFixed(2);
+            } else {
+              perc = (7.4 * cgpa + 12).toFixed(2);
+            }
+
+            if (perc <= 100 && perc >= 80) {
+              grades = 'O';
+            } else if (perc <= 79.99 && perc >= 75.00) {
+              grades = 'A';
+            } else if (perc <= 74.99 && perc >= 70.00) {
+              grades = 'B';
+            } else if (perc <= 69.99 && perc >= 60.00) {
+              grades = 'C';
+            } else if (perc <= 59.99 && perc >= 50.00) {
+              grades = 'D';
+            } else if (perc <= 49.99 && perc >= 45.00) {
+              grades = 'E';
+            } else if (perc <= 44.99 && perc >= 40.00) {
+              grades = 'P';
+            } else {
+              grades = 'F';
+            }
+
+
+            if (perc <= 100 && perc >= 80) {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>Your performance is Outstanding.`
+            } else if (perc <= 79.99 && perc >= 75.00) {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>Your performance is Excellent.`
+            } else if (perc <= 74.99 && perc >= 70.00) {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>Your performance is Very Good.`
+            } else if (perc <= 69.99 && perc >= 60.00) {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>Your performance is Good.`
+            } else if (perc <= 59.99 && perc >= 50.00) {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>Your performance is Fair.`
+            } else if (perc <= 49.99 && perc >= 45.00) {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>Your performance is Average.`
+            } else if (perc <= 44.99 && perc >= 40.00) {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>You are Passed.`
+            } else {
+              document.getElementById('showData').innerHTML = ` Your CGPA is ${cgpa} and percentage is ${perc}% with grade ${grades}. <br>You are Fail. `
+            }
+          }
+
+        }
+
+      }
+
+
+
+    </script>
+
+</body>
+
+</html>
